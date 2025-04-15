@@ -13,16 +13,14 @@ class DetailSalesController extends Controller
         return view('pegawai.sales.detail');
     }
 
-    public function createDetail(Request $request)
-    {
+    
 
-        //TODO: ubah 'quantity' menjadi 'amount'
-
+    public function createDetail($sale_id, $product_id, $amount, $sub_total){
         $detail = detail_sales::create([
-            'sale_id' => $request->sale_id,
-            'product_id' => $request->product_id,
-            'quantity' => $request->quantity,
-            'sub_total'=> $request->subTotal
+            'sale_id' => $sale_id,
+            'product_id' => $product_id,
+            'quantity' => $amount,
+            'sub_total'=> $sub_total
         ]);
 
         return $detail;

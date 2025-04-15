@@ -129,6 +129,7 @@ class SalesController extends Controller
 
         // TODO: cek bagian ini
         //TODO: buat function baru khusus buat detailnya
+        
         foreach($items as $i){
             $product_id = $i->product->id;
             $amount = $i->amount;
@@ -143,6 +144,8 @@ class SalesController extends Controller
         return null;
         
     }
+
+    
 
      
 }
