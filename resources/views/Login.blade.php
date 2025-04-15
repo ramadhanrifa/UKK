@@ -7,11 +7,28 @@
                 class="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl">
             </div>
             <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+            @if(session('success'))
+                <script>
+                    swal.fire({
+                    icon: 'success',
+                    Text:"{{ session('success') }}",
+                    })  
+                </script>
+            @elseif(session('failed'))
+                <script>
+                swal.fire({
+                icon: 'error',
+                 Text:"{{ session('failed') }}",
+                 })
+                </script>
+            @endif
                 <div class="max-w-md mx-auto">
                     <div>
-                        <h1 class="text-2xl font-semibold">Login Form with Floating Labels</h1>
+                        <h1 class="text-2xl font-semibold">Login Form</h1>
                     </div>
-                    <div class="divide-y divide-gray-200">
+                    <form action="{{ route('login') }}" method="POST">
+                        @csrf
+                        <div class="divide-y divide-gray-200">
                         <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                             <div class="relative">
                                 <input autocomplete="off" id="email" name="email" type="text"
@@ -33,6 +50,8 @@
                             </div>
                         </div>
                     </div>
+                    </form>
+                    
                 </div>
             </div>
         </div>

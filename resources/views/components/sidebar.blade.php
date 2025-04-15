@@ -63,9 +63,12 @@
                             class="absolute w-48 origin-bottom-left bg-white rounded-md shadow-lg left-10 bottom-14 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-label="user menu">
                             <p class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">role</p>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                role="menuitem">Logout</a>
-
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                            <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem">Logout</>
+                            </form>
+ 
                         </div>
                     </div>
                 </nav>
@@ -96,7 +99,7 @@
                                 <span>Home</span>
                             </a>
 
-                            <a href="#"
+                            <a href="{{ route('product.index') }}"
                                 class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white">
                                 <span aria-hidden="true"
                                     class="p-2 transition-colors rounded-lg group-hover:bg-indigo-700 group-hover:text-white">
@@ -104,7 +107,7 @@
                                 </span>
                                 <span>Produk</span>
                             </a>
-                            <a href="#"
+                            <a href=""
                                 class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white">
                                 <span aria-hidden="true"
                                     class="p-2 transition-colors rounded-lg group-hover:bg-indigo-700 group-hover:text-white">
@@ -112,7 +115,7 @@
                                 </span>
                                 <span>Pembelian</span>
                             </a>
-                            <a href="#"
+                            <a href=""
                                 class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white">
                                 <span aria-hidden="true"
                                     class="p-2 transition-colors rounded-lg group-hover:bg-indigo-700 group-hover:text-white">
@@ -120,7 +123,7 @@
                                 </span>
                                 <span>Penjualan</span>
                             </a>
-                            <a href="#"
+                            <a href="{{ route('user.index') }}"
                                 class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white">
                                 <span aria-hidden="true"
                                     class="p-2 transition-colors rounded-lg group-hover:bg-indigo-700 group-hover:text-white">
