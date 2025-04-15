@@ -47,7 +47,7 @@ class SalesController extends Controller
 
     }
 
-    public function store(Request $request, ){
+    public function store(Request $request, $items){
 
         $validator = [
             'total_price'=> 'required',
@@ -127,14 +127,22 @@ class SalesController extends Controller
             ]);
         }
 
+        // TODO: cek bagian ini
+        //TODO: buat function baru khusus buat detailnya
+        foreach($items as $i){
+            $product_id = $i->product->id;
+            $amount = $i->amount;
+            $sub_total = $i->sub_total;
+            $this->detailSalesController->createDetail(
+                $sales, $product_id, $amount, $sub_total
+            );
+        }
         
-        
-        $this->detailSalesController->createDetail(
-            $sales, $product_id, $amount, $sub_total
-        );
 
         // return to listView
         return null;
         
     }
+
+     
 }
