@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\sales;
 use Illuminate\Http\Request;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DetailSalesController;
 use Illuminate\Support\Facades\Validator;
 
 class SalesController extends Controller
 {
 
     protected $customerController;
+    protected $detailSalesController;
 
-   public function __construct(CustomerController $customerController){
-    $this->customerController = $customerController;
+   public function __construct(CustomerController $customerController, DetailSalesController $detailSalesController){
+    $this->detailSalesController = $detailSalesController;
    }
 
     public function index()
@@ -23,11 +25,26 @@ class SalesController extends Controller
     }
 
     public function create(){
-
+        return view('pegawai.sales.addPurchase');
     }
 
-    public function pay(){
+    public function cart(Request $request){
+        $validator =[
+            'items' => 'array',
+            'total_price'
+        ];
+
+        $validate = Validator::make($request->all(), $validator);
+        if ($validate->fails()){
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+        // $this->detailSalesController->findDetail()
+
+        // return ke halaman pembayaran
+        return null;
         
+
     }
 
     public function store(Request $request, ){
@@ -59,7 +76,7 @@ class SalesController extends Controller
 
             if($foundCustomer != null){
                 $newCustomer = $this->customerController->createPhoneNumber($name, $phoneNumber, $poin);
-                Sales::created([
+                $sales = Sales::created([
                     'sale_date' => now(),
                     'total_price' => $request->total_pice,
                     'total_pay' => $request->total_pay,
@@ -77,7 +94,7 @@ class SalesController extends Controller
                 $price = $request->total_price - $totalPoin;
                 $customerPoin -= $totalPoin;
 
-                Sales::created([
+                $sales = Sales::created([
                     'sale_date' => now(),
                     'total_price' => $price,
                     'total_pay' => $request->total_pay,
@@ -88,7 +105,7 @@ class SalesController extends Controller
                 ]);
             }
 
-            Sales::created([
+            $sales = Sales::created([
                 'sale_date' => now(),
                 'total_price' => $request->total_price,
                 'total_pay' => $request->total_pay,
@@ -98,17 +115,23 @@ class SalesController extends Controller
                 "total_poin" => $totalPoin
             ]);                      
 
+        }else {
+            $sales = Sales::created([
+                'sale_date' => now(),
+                'total_price' => $request->total_price,
+                'total_pay' => $request->total_pay,
+                'customer_id' => "",
+                'staff_id' => $request->staff_id,
+                'poin' => "",
+                "total_poin" => ""
+            ]);
         }
 
-        Sales::created([
-            'sale_date' => now(),
-            'total_price' => $request->total_price,
-            'total_pay' => $request->total_pay,
-            'customer_id' => "",
-            'staff_id' => $request->staff_id,
-            'poin' => "",
-            "total_poin" => ""
-        ]);              
+        
+        
+        $this->detailSalesController->createDetail(
+            $sales, $product_id, $amount, $sub_total
+        );
 
         // return to listView
         return null;
